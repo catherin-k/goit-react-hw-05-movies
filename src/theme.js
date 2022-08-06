@@ -7,7 +7,8 @@ export const theme = {
     lavender: '	#E6E6FA',
     blue: ' #86a8e3',
     red: '#d30303',
-    backGround: '#e1e6eb',
+    backGround: '#3f51b5',
+    hover: '#8282db',
   },
   space: [0, 2, 4, 8, 16, 32, 64],
 
