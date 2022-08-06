@@ -51,10 +51,6 @@ export class App extends Component {
           totalImgs: imagesTotal,
           loading: false,
         }));
-        window.scrollTo({
-          top: document.documentElement.scrollHeight,
-          behavior: 'smooth',
-        });
       } catch (error) {
         toast.error('..We have a problem');
       }
@@ -74,6 +70,8 @@ export class App extends Component {
       loading: true,
       page: prevState.page + 1,
     }));
+
+    window.scrollBy({ top: 900, left: 0, behavior: 'smooth' });
   };
 
   onSelectedLargeImg = (largeImgUrl, tags) => {
@@ -82,6 +80,7 @@ export class App extends Component {
       tags: tags,
     });
   };
+
   onCloseModal = () => {
     this.setState({
       selectedImg: null,
