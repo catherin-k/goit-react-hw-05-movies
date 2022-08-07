@@ -2,7 +2,7 @@ import { Component } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-import imgApi from './service/api';
+import imgApi from '../service/api';
 import { SearchBar } from './searchbar/Searchbar';
 import { ImageGallery } from './imageGallery/ImageGallery';
 import { LoadMoreButton } from './button/Button';
@@ -66,12 +66,13 @@ export class App extends Component {
   };
 
   loadMore = () => {
-    this.setState(prevState => ({
-      loading: true,
-      page: prevState.page + 1,
-    }));
-
-    window.scrollBy({ top: 900, left: 0, behavior: 'smooth' });
+    this.setState(
+      prevState => ({
+        loading: true,
+        page: prevState.page + 1,
+      }),
+      () => window.scrollBy({ top: 900, left: 0, behavior: 'smooth' })
+    );
   };
 
   onSelectedLargeImg = (largeImgUrl, tags) => {
