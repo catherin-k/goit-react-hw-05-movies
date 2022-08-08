@@ -46,11 +46,14 @@ export class App extends Component {
           return;
         }
 
-        this.setState(({ images }) => ({
-          images: [...images, ...imagesHits],
-          totalImgs: imagesTotal,
-          loading: false,
-        }));
+        this.setState(
+          ({ images }) => ({
+            images: [...images, ...imagesHits],
+            totalImgs: imagesTotal,
+            loading: false,
+          }),
+          () => window.scrollBy({ top: 900, left: 0, behavior: 'smooth' })
+        );
       } catch (error) {
         toast.error('..We have a problem');
       }
@@ -66,13 +69,10 @@ export class App extends Component {
   };
 
   loadMore = () => {
-    this.setState(
-      prevState => ({
-        loading: true,
-        page: prevState.page + 1,
-      }),
-      () => window.scrollBy({ top: 900, left: 0, behavior: 'smooth' })
-    );
+    this.setState(prevState => ({
+      loading: true,
+      page: prevState.page + 1,
+    }));
   };
 
   onSelectedLargeImg = (largeImgUrl, tags) => {
