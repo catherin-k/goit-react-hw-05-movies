@@ -1,125 +1,219 @@
-import { Component } from 'react';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+// import { useState, useEffect } from 'react';
+// import { ToastContainer, toast } from 'react-toastify';
+// import 'react-toastify/dist/ReactToastify.css';
 
-import imgApi from '../service/api';
-import { SearchBar } from './searchbar/Searchbar';
-import { ImageGallery } from './imageGallery/ImageGallery';
-import { LoadMoreButton } from './button/Button';
-import { Modal } from './modal/Modal';
-import { Loader } from './loader/Loader';
+// import imgApi from '../service/api';
+// import { SearchBar } from './searchbar/Searchbar';
+// import { ImageGallery } from './imageGallery/ImageGallery';
+// import { LoadMoreButton } from './button/Button';
+// import { Modal } from './modal/Modal';
+// import { Loader } from './loader/Loader';
 
-export class App extends Component {
-  state = {
-    images: [],
-    searchQuery: null,
-    page: 1,
-    totalImgs: null,
-    selectedImg: null,
-    tags: null,
-    loading: false,
-  };
+// export const App = () => {
+//   const [images, setImages] = useState([]);
+//   const [searchQuery, setSearchQuery] = useState(null);
+//   const [page, setPage] = useState(1);
+//   const [totalImgs, setTotalImgs] = useState(null);
+//   const [selectedImg, setSelectedImg] = useState(null);
+//   const [tags, setTags] = useState(null);
+//   const [loading, setLoading] = useState(false);
 
-  async componentDidUpdate(_, prevState) {
-    const { searchQuery, page } = this.state;
+//   useEffect(() => {
+//     if (!searchQuery) {
+//       return;
+//     }
 
-    if (searchQuery.trim() === '') {
-      toast.error('please enter your query in the search field');
-      return;
-    }
+//     async function getImages() {
+//       setLoading(true);
+//       try {
+//         const imgData = await imgApi(searchQuery, page);
+//         const imagesHits = imgData.hits;
 
-    if (prevState.searchQuery !== searchQuery || prevState.page !== page) {
-      this.setState({
-        loading: true,
-      });
+//         setTotalImgs(imgData.total);
+//         if (!imagesHits.length) {
+//           toast.warn('No results. Please, try something else');
+//           setLoading(false);
+//           return;
+//         }
+//         setImages(prevImg => [...prevImg, ...imagesHits]);
 
-      try {
-        const imgData = await imgApi(searchQuery, page);
-        const imagesHits = imgData.hits;
-        const imagesTotal = imgData.total;
+//         window.scrollBy({ top: 900, left: 0, behavior: 'smooth' });
+//         setLoading(false);
+//       } catch (error) {
+//         toast.error('..We have a problem');
+//       }
+//     }
+//     getImages();
+//   }, [page, searchQuery]);
 
-        if (imagesTotal === 0 || searchQuery.trim() === '') {
-          toast.warn('No results. Please, try something else');
-          this.setState({
-            loading: false,
-          });
-          return;
-        }
+//   const onSubmitForm = ({ query }) => {
+//     if (searchQuery === query) {
+//       return;
+//     }
+//     if (query.trim() === '') {
+//       toast.error('please enter your query in the search field');
+//       return;
+//     }
+//     setSearchQuery(query);
+//     setPage(1);
+//     setImages([]);
+//     setTotalImgs(null);
+//     setLoading(false);
+//   };
 
-        this.setState(
-          ({ images }) => ({
-            images: [...images, ...imagesHits],
-            totalImgs: imagesTotal,
-            loading: false,
-          }),
-          () => window.scrollBy({ top: 900, left: 0, behavior: 'smooth' })
-        );
-      } catch (error) {
-        toast.error('..We have a problem');
-      }
-    }
-  }
+//   const loadMore = () => {
+//     setPage(prevPage => prevPage + 1);
+//   };
 
-  onSubmitForm = ({ searchQuery }) => {
-    if (this.state.searchQuery === searchQuery) {
-      return;
-    }
+//   const onCloseModal = () => {
+//     setSelectedImg(null);
+//     setTags(null);
+//   };
 
-    this.setState({ searchQuery, page: 1, images: [], loading: false });
-  };
+//   const onSelectedLargeImg = (largeImgUrl, tags) => {
+//     setSelectedImg(largeImgUrl);
+//     setTags(tags);
+//   };
 
-  loadMore = () => {
-    this.setState(prevState => ({
-      loading: true,
-      page: prevState.page + 1,
-    }));
-  };
+//   return (
+//     <>
+//       <SearchBar onSubmitForm={onSubmitForm} />
 
-  onSelectedLargeImg = (largeImgUrl, tags) => {
-    this.setState({
-      selectedImg: largeImgUrl,
-      tags: tags,
-    });
-  };
+//       {images.length > 0 && (
+//         <ImageGallery images={images} selectedImg={onSelectedLargeImg} />
+//       )}
 
-  onCloseModal = () => {
-    this.setState({
-      selectedImg: null,
-    });
-  };
+//       {images.length > 0 && images.length !== totalImgs && (
+//         <LoadMoreButton onClick={loadMore} />
+//       )}
 
-  render() {
-    const { images, totalImgs, selectedImg, tags, loading } = this.state;
+//       {loading && <Loader />}
 
-    return (
-      <>
-        <SearchBar onSubmitForm={this.onSubmitForm} />
+//       {selectedImg && (
+//         <Modal modalImg={selectedImg} tags={tags} onClose={onCloseModal} />
+//       )}
 
-        {images.length > 0 && (
-          <ImageGallery images={images} selectedImg={this.onSelectedLargeImg} />
-        )}
+//       <ToastContainer
+//         autoClose={3000}
+//         position="top-center"
+//         theme="colored"
+//         pauseOnHover
+//       />
+//     </>
+//   );
+// };
 
-        {images.length > 0 && images.length !== totalImgs && (
-          <LoadMoreButton onClick={this.loadMore} />
-        )}
+// export class App extends Component {
+//   state = {
+//     images: [],
+//     searchQuery: null,
+//     page: 1,
+//     totalImgs: null,
+//     selectedImg: null,
+//     tags: null,
+//     loading: false,
+//   };
 
-        {loading && <Loader />}
+//   async componentDidUpdate(_, prevState) {
+//     const { searchQuery, page } = this.state;
 
-        {selectedImg && (
-          <Modal
-            modalImg={selectedImg}
-            tags={tags}
-            onClose={this.onCloseModal}
-          />
-        )}
+//     if (searchQuery.trim() === '') {
+//       toast.error('please enter your query in the search field');
+//       return;
+//     }
 
-        <ToastContainer
-          autoClose={3000}
-          position="top-center"
-          theme="colored"
-          pauseOnHover
-        />
-      </>
-    );
-  }
-}
+//     if (prevState.searchQuery !== searchQuery || prevState.page !== page) {
+//       this.setState({
+//         loading: true,
+//       });
+
+//       try {
+//         const imgData = await imgApi(searchQuery, page);
+//         const imagesHits = imgData.hits;
+//         const imagesTotal = imgData.total;
+
+//         if (imagesTotal === 0 || searchQuery.trim() === '') {
+//           toast.warn('No results. Please, try something else');
+//           this.setState({
+//             loading: false,
+//           });
+//           return;
+//         }
+
+//         this.setState(
+//           ({ images }) => ({
+//             images: [...images, ...imagesHits],
+//             totalImgs: imagesTotal,
+//             loading: false,
+//           }),
+//           () => window.scrollBy({ top: 900, left: 0, behavior: 'smooth' })
+//         );
+//       } catch (error) {
+//         toast.error('..We have a problem');
+//       }
+//     }
+//   }
+
+//   onSubmitForm = ({ searchQuery }) => {
+//     if (this.state.searchQuery === searchQuery) {
+//       return;
+//     }
+
+//     this.setState({ searchQuery, page: 1, images: [], loading: false });
+//   };
+
+//   loadMore = () => {
+//     this.setState(prevState => ({
+//       loading: true,
+//       page: prevState.page + 1,
+//     }));
+//   };
+
+//   onSelectedLargeImg = (largeImgUrl, tags) => {
+//     this.setState({
+//       selectedImg: largeImgUrl,
+//       tags: tags,
+//     });
+//   };
+
+//   onCloseModal = () => {
+//     this.setState({
+//       selectedImg: null,
+//     });
+//   };
+
+//   render() {
+//     const { images, totalImgs, selectedImg, tags, loading } = this.state;
+
+//     return (
+//       <>
+//         <SearchBar onSubmitForm={this.onSubmitForm} />
+
+//         {images.length > 0 && (
+//           <ImageGallery images={images} selectedImg={this.onSelectedLargeImg} />
+//         )}
+
+//         {images.length > 0 && images.length !== totalImgs && (
+//           <LoadMoreButton onClick={this.loadMore} />
+//         )}
+
+//         {loading && <Loader />}
+
+//         {selectedImg && (
+//           <Modal
+//             modalImg={selectedImg}
+//             tags={tags}
+//             onClose={this.onCloseModal}
+//           />
+//         )}
+
+//         <ToastContainer
+//           autoClose={3000}
+//           position="top-center"
+//           theme="colored"
+//           pauseOnHover
+//         />
+//       </>
+//     );
+//   }
+// }
