@@ -1,7 +1,7 @@
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import { Formik } from 'formik';
 import {
-  Header,
+  Wraper,
   FormBox,
   BtnSearchForm,
   BtnText,
@@ -10,26 +10,26 @@ import {
 
 export const SearchBar = ({ onSubmitForm }) => {
   return (
-    <Header>
+    <Wraper>
       <Formik initialValues={{ query: '' }} onSubmit={onSubmitForm}>
         <FormBox>
-          <BtnSearchForm type="submit">
-            <BtnText>Search</BtnText>
-          </BtnSearchForm>
-
           <Input
             name="query"
             type="text"
             autoComplete="off"
             autoFocus
-            placeholder="Search images and photos"
+            placeholder="Search movie"
           />
+
+          <BtnSearchForm type="submit">
+            <BtnText>Search</BtnText>
+          </BtnSearchForm>
         </FormBox>
       </Formik>
-    </Header>
+    </Wraper>
   );
 };
 
-SearchBar.propTypes = {
-  onSubmitForm: PropTypes.func.isRequired,
-};
+// SearchBar.propTypes = {
+//   onSubmitForm: PropTypes.func.isRequired,
+// };

@@ -9,7 +9,7 @@ import smoothscroll from 'smoothscroll-polyfill';
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <ThemeProvider theme={theme}>
-      <BrowserRouter>
+      <BrowserRouter basename="/goit-react-hw-05-movies/">
         <App />
       </BrowserRouter>
     </ThemeProvider>

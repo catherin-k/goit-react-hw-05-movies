@@ -16,10 +16,12 @@ export const theme = {
     xs: '12px',
     s: '14px',
     m: '16px',
-    l: '32px',
+    l: '24px',
+    xl: '32px',
   },
   fontWeights: {
     normal: 400,
+
     bold: 700,
   },
   lineHeights: {
@@ -29,7 +31,7 @@ export const theme = {
   borders: {
     none: 'none',
     normal: '1px solid #7d7e81',
-    focus: '1px solid #9817b1',
+    focus: '2px solid #d30303',
   },
   radii: {
     none: '0',

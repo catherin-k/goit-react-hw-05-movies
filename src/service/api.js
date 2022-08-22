@@ -1,19 +1,19 @@
 import axios from 'axios';
 
-const KEY = '19947023-b7017f4974f73f87e742a194c';
-axios.defaults.baseURL = 'https://pixabay.com/api/';
+const KEY = '47bf952bf58b26c55c9961725433383a';
+axios.defaults.baseURL = 'https://api.themoviedb.org/3/';
 axios.defaults.params = {
-  key: KEY,
-  image_type: 'photo',
-  orientation: 'horizontal',
-  per_page: 12,
+  api_key: KEY,
 };
 
-async function imgApi(searchQuery, page) {
-  const res = await axios.get(`?q=${searchQuery}&page=${page}`);
+export async function getTrendingMovies() {
+  const res = await axios.get('/trending/movie/day');
+
   return res.data;
 }
 
-export default imgApi;
+export async function getMoviesByQuery(query) {
+  const res = await axios.get(`search/movie?query=${query}`);
 
-// https://pixabay.com/api/?q=cat&page=1&key=your_key&image_type=photo&orientation=horizontal&per_page=12
+  return res.data;
+}
