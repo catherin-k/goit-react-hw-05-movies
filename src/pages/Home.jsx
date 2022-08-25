@@ -6,14 +6,15 @@ const Home = () => {
   const [movies, setMovies] = useState([]);
 
   useEffect(() => {
-    const fetchTrendingMovies = async () => {
+    async function fetchTrendingMovies() {
       try {
         const { results } = await getTrendingMovies();
+
         setMovies(results);
       } catch (error) {
         console.log(error.message);
       }
-    };
+    }
 
     fetchTrendingMovies();
   }, []);

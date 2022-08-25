@@ -1,4 +1,4 @@
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import { Formik } from 'formik';
 import {
   Wraper,
@@ -30,6 +30,6 @@ export const SearchBar = ({ onSubmitForm }) => {
   );
 };
 
-// SearchBar.propTypes = {
-//   onSubmitForm: PropTypes.func.isRequired,
-// };
+SearchBar.propTypes = {
+  onSubmitForm: PropTypes.func.isRequired,
+};

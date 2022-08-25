@@ -15,23 +15,21 @@ const Movies = () => {
     if (!query) {
       return;
     }
-    console.log('go-go-go');
+
     async function fetchMoviesSearch(serchQuery) {
       try {
         const moviesData = await getMoviesByQuery(serchQuery);
+        if (!moviesData.results.length && query) {
+          toast.warn('No results. Please, try something else');
+          return;
+        }
         setMovies(moviesData.results);
       } catch (error) {
         toast.error('..We have a problem');
       }
     }
     fetchMoviesSearch(query);
-
-    if (!movies.length) {
-      toast.warn('No results. Please, try something else');
-      setSearchParams({});
-      return;
-    }
-  }, [movies.length, query, setSearchParams]);
+  }, [query, setSearchParams]);
 
   // Form Submit
   const onSubmitForm = (value, { resetForm }) => {
